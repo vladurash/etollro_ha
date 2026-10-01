@@ -1,0 +1,62 @@
+{
+    "title": "eToll",
+    "config": {
+        "step": {
+            "user": {
+                "title": "Login to eToll Service",
+                "description": "Enter your credentials to connect the integration to your eToll account.",
+                "data": {
+                    "username": "Username (email)",
+                    "password": "Password",
+                    "update_interval": "Update interval"
+                }
+            },
+            "reauth_confirm": {
+                "title": "Re-authenticate eToll",
+                "description": "The password for account **{username}** has expired or changed. Please enter the new password.",
+                "data": {
+                    "password": "New password"
+                }
+            },
+            "reconfigure": {
+                "title": "Reconfigure eToll",
+                "description": "Change the password for account **{username}**.",
+                "data": {
+                    "password": "New password"
+                }
+            }
+        },
+        "error": {
+            "authentication_failed": "Authentication failed. Please check your credentials.",
+            "cannot_connect": "Cannot connect to eToll service. Please check your internet connection.",
+            "unknown": "Unexpected error. Check logs for details.",
+            "invalid_update_interval": "Update interval must be between 300 and 86400 seconds."
+        },
+        "abort": {
+            "already_configured": "This account is already configured.",
+            "reauth_successful": "Re-authentication successful.",
+            "reconfigure_successful": "Reconfiguration successful."
+        }
+    },
+    "options": {
+        "error": {
+            "invalid_update_interval": "Update interval must be between 300 and 86400 seconds."
+            },
+        "step": {
+            "init": {
+                "title": "eToll Options",
+                "description": "Choose the category you want to edit.",
+                "menu_options": {
+                    "settings": "Settings"
+                }
+            },
+            "settings": {
+                "title": "eToll Settings",
+                "description": "Configure the vehicle data update interval.",
+                "data": {
+                    "update_interval": "Update interval"
+                }
+            }
+        }
+    }
+}

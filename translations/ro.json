@@ -1,0 +1,64 @@
+{
+    "title": "eToll",
+    "config": {
+        "step": {
+            "user": {
+                "title": "Autentificare la serviciul eToll",
+                "description": "Introduceți datele de autentificare pentru contul dumneavoastră eToll.",
+                "data": {
+                    "username": "Utilizator (email)",
+                    "password": "Parolă",
+                    "update_interval": "Interval de actualizare"
+                }
+            },
+            "reauth_confirm": {
+                "title": "Re-autentificare eToll",
+                "description": "Parola pentru contul **{username}** a expirat sau s-a schimbat. Introduceți noua parolă.",
+                "data": {
+                    "password": "Parolă nouă"
+                }
+            },
+            "reconfigure": {
+                "title": "Reconfigurare eToll",
+                "description": "Schimbați parola pentru contul **{username}**.",
+                "data": {
+                    "password": "Parolă nouă"
+                }
+            }
+        },
+        "error": {
+            "authentication_failed": "Autentificarea a eșuat. Verificați datele introduse.",
+            "cannot_connect": "Nu se poate conecta la serviciul eToll. Verificați conexiunea la internet.",
+            "unknown": "Eroare neașteptată. Consultați jurnalele pentru detalii.",
+            "invalid_update_interval": "Intervalul de actualizare trebuie să fie între 300 și 86400 secunde."
+        },
+        "abort": {
+            "already_configured": "Acest cont este deja configurat.",
+            "reauth_successful": "Re-autentificarea a reușit.",
+            "reconfigure_successful": "Reconfigurarea a reușit."
+        }
+    },
+    "options": {
+        "error": {
+            "invalid_update_interval": "Intervalul de actualizare trebuie să fie între 300 și 86400 secunde."
+            
+        },
+        "step": {
+            "init": {
+                "title": "Opțiuni eToll",
+                "description": "Alegeți categoria pe care doriți să o editați.",
+                "menu_options": {
+                    "settings": "Setări"
+                }
+            },
+            "settings": {
+                "title": "Setări eToll",
+                "description": "Configurați intervalul de actualizare a datelor vehiculelor.",
+                "data": {
+                    "update_interval": "Interval de actualizare"
+                }
+            }
+        }
+    }
+    
+}

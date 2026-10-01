@@ -1,0 +1,52 @@
+{
+    "title": "eToll",
+    "config": {
+        "step": {
+            "user": {
+                "title": "Autenticación en el servicio eToll",
+                "description": "Introduzca sus credenciales para conectar la integración con su cuenta eToll.",
+                "data": {
+                    "username": "Usuario (correo electrónico)",
+                    "password": "Contraseña",
+                    "update_interval": "Intervalo de actualización"
+                }
+            },
+            "reauth_confirm": {
+                "title": "Re-autenticación eToll",
+                "description": "La contraseña de la cuenta **{username}** ha expirado o se ha cambiado. Introduzca la nueva contraseña.",
+                "data": {
+                    "password": "Nueva contraseña"
+                }
+            },
+            "reconfigure": {
+                "title": "Reconfigurar eToll",
+                "description": "Cambie la contraseña de la cuenta **{username}**.",
+                "data": {
+                    "password": "Nueva contraseña"
+                }
+            }
+        },
+        "error": {
+            "authentication_failed": "La autenticación ha fallado. Verifique los datos ingresados.",
+            "cannot_connect": "No se puede conectar al servicio eToll. Verifique su conexión a Internet.",
+            "unknown": "Error inesperado. Consulte los registros para más detalles.",
+            "invalid_update_interval": "El intervalo de actualización debe estar entre 300 y 86400 segundos."
+        },
+        "abort": {
+            "already_configured": "Esta cuenta ya está configurada.",
+            "reauth_successful": "Re-autenticación exitosa.",
+            "reconfigure_successful": "Reconfiguración exitosa."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Opciones eToll",
+                "description": "Configure el intervalo de actualización de los vehículos.",
+                "data": {
+                    "update_interval": "Intervalo de actualización"
+                }
+            }
+        }
+    }
+}
