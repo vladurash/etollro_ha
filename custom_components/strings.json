@@ -40,23 +40,15 @@
     },
     "options": {
         "error": {
-            "invalid_update_interval": "Update interval must be between 300 and 86400 seconds.",
-            // "license_key_empty": "Please enter a license key.",
-            // "license_key_invalid": "Invalid license key. Check the format and try again.",
-            // "license_already_used": "This license key has already been used on another installation.",
-            // "license_key_expired": "This license key has expired.",
-            // "license_fingerprint_mismatch": "This license key is bound to a different installation.",
-            // "license_network_error": "Cannot connect to the license server. Check your internet connection.",
-            // "license_server_error": "License server error. Please try again later."
+            "invalid_update_interval": "Update interval must be between 300 and 86400 seconds."
+            
         },
         "step": {
             "init": {
                 "title": "eToll Options",
                 "description": "Choose the category you want to edit.",
                 "menu_options": {
-                    "settings": "Settings",
-                    // "licenta": "License"
-                }
+                    "settings": "Settings"                }
             },
             "settings": {
                 "title": "eToll Settings",
@@ -64,24 +56,9 @@
                 "data": {
                     "update_interval": "Update interval"
                 }
-            },
-            // "licenta": {
-            //     "title": "eToll License",
-            //     "description": "{license_status}\n\nEnter your license key to activate or renew the integration.",
-            //     "data": {
-            //         "license_key": "License Key"
-            //     }
-            // }
+            }
+            
         }
-    },
-    // "issues": {
-    //     "trial_expired": {
-    //         "title": "Trial expired — eToll",
-    //         "description": "The free trial period has ended.\n\nSensors are disabled until a license is obtained.\n\n[Get a license now]({learn_more_url})"
-    //     },
-    //     "license_expired": {
-    //         "title": "License expired — eToll",
-    //         "description": "The license for this integration has expired.\n\nSensors are disabled until the license is renewed.\n\n[Renew license]({learn_more_url})"
-    //     }
-    // }
+    }
+    
 }
