@@ -25,7 +25,6 @@ from homeassistant.util import dt as dt_util
 from .const import (
     ATTRIBUTION,
     DOMAIN,
-    # LICENSE_DATA_KEY,
     MAX_ATTR_TRECERI,
     VERSION,
 )
@@ -33,17 +32,6 @@ from .coordinator import EtollCoordinator
 from .helpers import sanitize_plate_no
 
 _LOGGER = logging.getLogger(__name__)
-
-
-# # =====================================================================
-# #  Funcții Helper
-# # =====================================================================
-
-
-# # def _is_license_valid(hass: HomeAssistant) -> bool:
-# #     """Verifică dacă licența este validă."""
-# #     mgr = hass.data.get(DOMAIN, {}).get(LICENSE_DATA_KEY)
-# #     return mgr is not None and mgr.is_valid
 
 
 # =====================================================================
@@ -65,40 +53,6 @@ async def async_setup_entry(
 
     sensors: list[SensorEntity] = []
 
-    # # # Verifică validitatea licenței
-    # # license_valid = _is_license_valid(hass)
-
-    # # if not license_valid:
-    # #     # Curăță senzorii normali orfani din Entity Registry
-    # #     registru = er.async_get(hass)
-    # #     licenta_uid = f"{DOMAIN}_licenta_necesara_{config_entry.entry_id}"
-    # #     for entry_reg in er.async_entries_for_config_entry(
-    # #         registru, config_entry.entry_id
-    # #     ):
-    # #         if (
-    # #             entry_reg.domain == "sensor"
-    # #             and entry_reg.unique_id != licenta_uid
-    # #         ):
-    # #             registru.async_remove(entry_reg.entity_id)
-    # #             _LOGGER.debug(
-    # #                 "[eToll] Senzor orfan eliminat (licență expirată): %s",
-    # #                 entry_reg.entity_id,
-    # #             )
-    # #     # Dacă nu avem licență validă, adaugă doar LicentaNecesaraSensor
-    # #     sensors.append(LicentaNecesaraSensor(coordinator, config_entry))
-    # # else:
-    # Curăță senzorul de licență orfan (dacă exista anterior)
-    registru = er.async_get(hass)
-    licenta_uid = f"{DOMAIN}_licenta_necesara_{config_entry.entry_id}"
-    entitate_licenta = registru.async_get_entity_id("sensor", DOMAIN, licenta_uid)
-    if entitate_licenta is not None:
-        registru.async_remove(entitate_licenta)
-        _LOGGER.debug(
-            "[eToll] Entitate LicentaNecesaraSensor orfană eliminată: %s",
-            entitate_licenta,
-        )
-
-    # Dacă licența e validă, adaugă toți senzorii normali
     # Senzor utilizator
     sensors.append(DateUtilizatorSensor(coordinator, config_entry))
 
@@ -150,11 +104,7 @@ class EtollBaseSensor(CoordinatorEntity[EtollCoordinator], SensorEntity):
         self._attr_unique_id = unique_id
         self._attr_icon = icon
 
-    # @property
-    # def _license_valid(self) -> bool:
-    #     """Verifică dacă licența este validă."""
-    #     mgr = self.hass.data.get(DOMAIN, {}).get(LICENSE_DATA_KEY)
-    #     return mgr is not None and mgr.is_valid
+   
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -171,41 +121,6 @@ class EtollBaseSensor(CoordinatorEntity[EtollCoordinator], SensorEntity):
             sw_version=VERSION,
             entry_type=DeviceEntryType.SERVICE,
         )
-
-
-# # =====================================================================
-# #  LicentaNecesaraSensor
-# # =====================================================================
-
-
-# class LicentaNecesaraSensor(EtollBaseSensor):
-#     """Senzor care afișează mesajul de licență necesară."""
-
-#     def __init__(
-#         self, coordinator: EtollCoordinator, config_entry: ConfigEntry
-#     ) -> None:
-#         """Inițializare."""
-#         super().__init__(
-#             coordinator=coordinator,
-#             config_entry=config_entry,
-#             name="eToll",
-#             unique_id=f"{DOMAIN}_licenta_necesara_{config_entry.entry_id}",
-#             icon="mdi:license",
-#         )
-
-#     @property
-#     def native_value(self) -> str:
-#         """Returnează mesajul de licență necesară."""
-#         return "Licență necesară"
-
-#     @property
-#     def extra_state_attributes(self) -> dict:
-#         """Atribute suplimentare cu informații despre licență."""
-#         return {
-#             "status": "Licență necesară",
-#             "info": "Pentru a activa senzorii, este necesară o licență validă. Vizitați https://hubinteligent.org pentru mai multe detalii.",
-#             "attribution": ATTRIBUTION,
-#         }
 
 
 # =====================================================================
@@ -301,20 +216,60 @@ class VehiculSensor(EtollBaseSensor):
 
     @property
     def extra_state_attributes(self) -> dict:
-        """Atribute suplimentare ale vehiculului și rovinietei."""
-        # if not self._license_valid:
-        #     return {"licență": "necesară"}
+        """Expose available vehicle details and current vignette eligibility."""
         vehicle = self._get_vehicle_data()
+        expiration_raw = vehicle.get("expirationDateCurrentVignette")
+        expiration = dt_util.parse_datetime(expiration_raw or "")
+
         attrs = {
+            # Keep the API field names used by the current integration.
             "plateNumber": vehicle.get("plateNumber"),
-            "expirationDate": vehicle.get("expirationDateCurrentVignette"),
+            "expirationDate": expiration_raw,
             "vehicleType": vehicle.get("vehicleType"),
             "country": vehicle.get("country"),
+            "countryCode": vehicle.get("countryCode"),
+            "countryType": vehicle.get("countryType"),
             "category": vehicle.get("category"),
             "emissionStandard": vehicle.get("emissionStandard"),
             "mtma": vehicle.get("mtma"),
             "isValid": vehicle.get("isValid"),
+            "vin": vehicle.get("vin"),
+            "registrationSerial": vehicle.get("registrationSerial"),
+            "favorite": vehicle.get("favorite"),
+            "lastEvent": vehicle.get("lastEvent"),
+            "temporaryPlate": vehicle.get("temporaryPlate"),
+            "strrPeajCategoryCode": vehicle.get("strrPeajCategoryCode"),
+            "trailerCategory": vehicle.get("trailerCategory"),
+            "eligibleIntervals": vehicle.get("eligibleIntervals"),
+
+            # Romanian labels retained from the previous sensor attributes.
+            "Număr de înmatriculare": vehicle.get("plateNumber"),
+            "VIN": vehicle.get("vin"),
+            "Seria certificatului": vehicle.get("registrationSerial"),
+            "Țara": vehicle.get("country"),
+            "Cod țară": vehicle.get("countryCode"),
+            "Categorie": vehicle.get("category"),
+            "Categorie vignietă": vehicle.get("category"),
+            "Categorie peaj": vehicle.get("strrPeajCategoryCode"),
+            "Categorie remorcă": vehicle.get("trailerCategory"),
+            "Standard emisii": vehicle.get("emissionStandard"),
+            "MTMA": vehicle.get("mtma"),
+            "Valid": vehicle.get("isValid"),
+            "Număr temporar": vehicle.get("temporaryPlate"),
+            "Favorit": vehicle.get("favorite"),
+            "Data ultimului eveniment": vehicle.get("lastEvent"),
         }
+        if expiration is not None:
+            if expiration.tzinfo is None:
+                expiration = expiration.replace(tzinfo=dt_util.DEFAULT_TIME_ZONE)
+            expiration_local = dt_util.as_local(expiration)
+            attrs["Data sfârșit vignietă"] = expiration_local.strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
+            attrs["Expiră peste (zile)"] = int(
+                (expiration_local - dt_util.now()).total_seconds() // 86400
+            )
+
         return {key: value for key, value in attrs.items() if value is not None}
 
 
