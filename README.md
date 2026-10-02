@@ -1,9 +1,9 @@
 # eToll for Home Assistant
 
-Custom integration for Home Assistant that reads vehicle vignette data and available bridge toll and invoice data from the eToll portal (`portal.etoll.ro`). The integration domain and component directory are both `etoll`. Current release: **1.0.0**.
+Custom integration for Home Assistant that reads vehicle vignette data and available bridge toll and invoice data from the eToll portal (`portal.etoll.ro`). The integration domain and component directory are both `etoll`.
 
-[![GitHub Release](https://img.shields.io/github/v/release/vladurash/etoll)](https://github.com/vladurash/etoll/releases)
-[![GitHub Stars](https://img.shields.io/github/stars/vladurash/etoll?style=flat&logo=github)](https://github.com/vladurash/etoll/stargazers)
+[![GitHub Release](https://img.shields.io/github/v/release/vladurash/etollro_ha)](https://github.com/vladurash/etollro_ha/releases)
+[![GitHub Stars](https://img.shields.io/github/stars/vladurash/etollro_ha?style=flat&logo=github)](https://github.com/vladurash/etollro_ha/stargazers)
 
 ## Sensors
 
@@ -13,18 +13,18 @@ The integration creates one account sensor and one set of vehicle sensors for ea
 | --- | --- |
 | **Date utilizator** | `Conectat` when the configured account is available; includes the configured username. |
 | **Rovinietă activă (plate)** | `Da` while the vehicle’s current vignette expiration date is in the future, `Nu` when expired, and `Necunoscut` when no expiration date is available. Includes vehicle details such as plate, expiration date, category, and validity fields when provided. |
-| **Restanțe treceri pod (plate)** | `Unknown` because the integration has not confirmed an eToll API route that identifies unpaid bridge detections. |
-| **Treceri pod (plate)** | Count and limited date/direction attributes when bridge verification returns crossings; otherwise `Unknown`. |
-| **Sold peaje neexpirate (plate)** | Remaining crossing balance when the portal returns one; otherwise `Unknown`. |
+| **Restanțe treceri pod (plate)** | Legacy sensor. It is `Unknown` and disabled because the integration has no confirmed eToll API route for unpaid bridge detections. |
+| **Treceri pod (plate)** | Legacy sensor. It reports verified crossings when returned; when the value is `Unknown`, Home Assistant disables it while retaining its registry entry. |
+| **Sold peaje neexpirate (plate)** | Legacy sensor. It reports a remaining crossing balance when returned; when the value is `Unknown`, Home Assistant disables it while retaining its registry entry. |
 | **Raport tranzacții** | Invoice count and total when invoices are returned; otherwise `Unknown`. |
 
-`Unknown` is expected when the account has no matching toll or invoice data. For example, an empty `/api/tolls` response does not mean that there are zero unpaid crossings: unpaid bridge detection is not currently available from a confirmed endpoint. Optional toll and invoice requests can fail without stopping vehicle and vignette updates; those failures are written to the Home Assistant log.
+`Unknown` is expected when the account has no matching toll or invoice data. On integration setup or reload, legacy toll sensors with an `Unknown` value are disabled in the entity registry, but their IDs are retained for compatibility. An empty `/api/tolls` response does not establish whether unpaid crossings exist. Optional toll and invoice requests can fail without stopping vehicle and vignette updates; those failures are written to the Home Assistant log.
 
 ## Install
 
 ### HACS
 
-Add [vladurash/etoll](https://github.com/vladurash/etoll) as a custom HACS integration repository, install **eToll**, then restart Home Assistant.
+Add [vladurash/etollro_ha](https://github.com/vladurash/etollro_ha) as a custom HACS integration repository, install **eToll**, then restart Home Assistant.
 
 ### Manual
 
@@ -54,4 +54,4 @@ This release uses the new Home Assistant domain `etoll` and the directory `custo
 
 ## Development and support
 
-Issues and contributions: [github.com/vladurash/etoll](https://github.com/vladurash/etoll).
+Issues and contributions: [github.com/vladurash/etollro_ha](https://github.com/vladurash/etollro_ha).
