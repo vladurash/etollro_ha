@@ -11,7 +11,7 @@
 
 ## Cum instalez eToll?
 
-În HACS, adaugă [repository-ul vladurash/etoll](https://github.com/vladurash/etoll) ca repository personalizat de tip **Integration**, instalează **eToll** și repornește Home Assistant. Alternativ, copiază directorul `etoll/` în `custom_components/etoll/` și repornește Home Assistant.
+În HACS, adaugă [repository-ul vladurash/etollro_ha](https://github.com/vladurash/etollro_ha) ca repository personalizat de tip **Integration**, instalează **eToll** și repornește Home Assistant. Alternativ, copiază directorul `etoll/` în `custom_components/etoll/` și repornește Home Assistant.
 
 Apoi deschide **Settings → Devices & services → Add integration**, caută **eToll** și introdu numele de utilizator și parola contului tău eToll.
 

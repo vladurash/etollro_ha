@@ -2,8 +2,8 @@
 
 Custom integration for Home Assistant that reads vehicle vignette data and available bridge toll and invoice data from the eToll portal (`portal.etoll.ro`). The integration domain and component directory are both `etoll`. Current release: **1.0.0**.
 
-[![GitHub Release](https://img.shields.io/github/v/release/vladurash/etoll)](https://github.com/vladurash/etoll/releases)
-[![GitHub Stars](https://img.shields.io/github/stars/vladurash/etoll?style=flat&logo=github)](https://github.com/vladurash/etoll/stargazers)
+[![GitHub Release](https://img.shields.io/github/v/release/vladurash/etollro_ha)](https://github.com/vladurash/etollro_ha/releases)
+[![GitHub Stars](https://img.shields.io/github/stars/vladurash/etollro_ha?style=flat&logo=github)](https://github.com/vladurash/etollro_ha/stargazers)
 
 ## Sensors
 
@@ -24,7 +24,7 @@ The integration creates one account sensor and one set of vehicle sensors for ea
 
 ### HACS
 
-Add [vladurash/etoll](https://github.com/vladurash/etoll) as a custom HACS integration repository, install **eToll**, then restart Home Assistant.
+Add [vladurash/etollro_ha](https://github.com/vladurash/etollro_ha) as a custom HACS integration repository, install **eToll**, then restart Home Assistant.
 
 ### Manual
 
@@ -54,4 +54,4 @@ This release uses the new Home Assistant domain `etoll` and the directory `custo
 
 ## Development and support
 
-Issues and contributions: [github.com/vladurash/etoll](https://github.com/vladurash/etoll).
+Issues and contributions: [github.com/vladurash/etollro_ha](https://github.com/vladurash/etollro_ha).
