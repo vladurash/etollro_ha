@@ -1,6 +1,6 @@
 # eToll for Home Assistant
 
-Custom integration for Home Assistant that reads vehicle vignette data and available bridge toll and invoice data from the eToll portal (`portal.etoll.ro`). The integration domain and component directory are both `etoll`. Current release: **1.0.0**.
+Custom integration for Home Assistant that reads vehicle vignette data and available bridge toll and invoice data from the eToll portal (`portal.etoll.ro`). The integration domain and component directory are both `etoll`.
 
 [![GitHub Release](https://img.shields.io/github/v/release/vladurash/etollro_ha)](https://github.com/vladurash/etollro_ha/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/vladurash/etollro_ha?style=flat&logo=github)](https://github.com/vladurash/etollro_ha/stargazers)
