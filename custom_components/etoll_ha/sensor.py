@@ -18,6 +18,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
+from homeassistant.helpers.entity_registry import RegistryEntryDisabler
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
@@ -74,8 +75,41 @@ async def async_setup_entry(
     sensors.append(RaportTranzactiiSensor(coordinator, config_entry))
 
     if sensors:
+        _sync_legacy_toll_entity_registry(
+            hass,
+            [sensor for sensor in sensors if isinstance(sensor, LegacyTollSensor)],
+        )
         async_add_entities(sensors)
         _LOGGER.info("Au fost adăugați %d senzori eToll.", len(sensors))
+
+
+def _sync_legacy_toll_entity_registry(
+    hass: HomeAssistant, sensors: list[LegacyTollSensor]
+) -> None:
+    """Disable legacy toll entities with unknown states, retaining their IDs."""
+    registry = er.async_get(hass)
+    for sensor in sensors:
+        entity_id = registry.async_get_entity_id(
+            "sensor", DOMAIN, sensor.unique_id
+        )
+        if entity_id is None:
+            # New entries use the entity's entity_registry_enabled_default.
+            continue
+        entry = registry.async_get(entity_id)
+        if entry is None:
+            continue
+
+        has_value = sensor.native_value != "Unknown"
+        if not has_value and entry.disabled_by is None:
+            registry.async_update_entity(
+                entity_id,
+                disabled_by=RegistryEntryDisabler.INTEGRATION,
+            )
+        elif (
+            has_value
+            and entry.disabled_by is RegistryEntryDisabler.INTEGRATION
+        ):
+            registry.async_update_entity(entity_id, disabled_by=None)
 
 
 # =====================================================================
@@ -121,6 +155,15 @@ class EtollBaseSensor(CoordinatorEntity[EtollCoordinator], SensorEntity):
             sw_version=VERSION,
             entry_type=DeviceEntryType.SERVICE,
         )
+
+
+class LegacyTollSensor(EtollBaseSensor):
+    """Backwards-compatible toll sensor disabled when its state is unknown."""
+
+    @property
+    def entity_registry_enabled_default(self) -> bool:
+        """Disable newly registered legacy sensors without a usable value."""
+        return self.native_value != "Unknown"
 
 
 # =====================================================================
@@ -278,7 +321,7 @@ class VehiculSensor(EtollBaseSensor):
 # =====================================================================
 
 
-class PlataTreceriPodSensor(EtollBaseSensor):
+class PlataTreceriPodSensor(LegacyTollSensor):
     """Senzor pentru restanțe treceri pod (neplătite în ultimele 24h).
 
     Filtrarea se face per vehicul (vin + plate_no).
@@ -320,7 +363,7 @@ class PlataTreceriPodSensor(EtollBaseSensor):
 # =====================================================================
 
 
-class TreceriPodSensor(EtollBaseSensor):
+class TreceriPodSensor(LegacyTollSensor):
     """Senzor pentru istoricul complet al trecerilor de pod."""
 
     def __init__(
@@ -388,7 +431,7 @@ class TreceriPodSensor(EtollBaseSensor):
 # =====================================================================
 
 
-class SoldSensor(EtollBaseSensor):
+class SoldSensor(LegacyTollSensor):
     """Senzor pentru soldul peajelor neexpirate."""
 
     def __init__(

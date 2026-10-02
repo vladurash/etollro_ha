@@ -23,14 +23,14 @@ Este creat un senzor de cont și un set de senzori pentru fiecare vehicul de tip
 | --- | --- |
 | **Date utilizator** | `Conectat` sau `nespecificat`; atributul `username` conține contul configurat. |
 | **Rovinietă activă (număr)** | `Da`, `Nu` sau `Necunoscut`, în funcție de data de expirare disponibilă. |
-| **Restanțe treceri pod (număr)** | `Unknown`; nu există în integrare o rută confirmată pentru detectarea restanțelor. |
-| **Treceri pod (număr)** | Numărul trecerilor confirmate sau `Unknown` dacă API-ul nu oferă treceri. |
-| **Sold peaje neexpirate (număr)** | Numărul trecerilor rămase când portalul furnizează un sold, altfel `Unknown`. |
+| **Restanțe treceri pod (număr)** | Senzor legacy; `Unknown` și dezactivat, deoarece nu există o rută confirmată pentru detectarea restanțelor. |
+| **Treceri pod (număr)** | Senzor legacy; treceri confirmate când sunt returnate. Dacă valoarea este `Unknown`, Home Assistant îl dezactivează și îi păstrează intrarea în registru. |
+| **Sold peaje neexpirate (număr)** | Senzor legacy; soldul disponibil sau `Unknown`. Când valoarea este `Unknown`, Home Assistant îl dezactivează și îi păstrează intrarea în registru. |
 | **Raport tranzacții** | Numărul facturilor și suma totală când portalul returnează facturi, altfel `Unknown`. |
 
 ## De ce un senzor afișează `Unknown`?
 
-Înseamnă că portalul nu a returnat date pentru acel tip de informație. În special, dacă nu există facturi, senzorul **Raport tranzacții** afișează `Unknown`; dacă nu există un sold sau treceri de pod în răspunsurile portalului, senzorii corespunzători afișează `Unknown`. Acesta este comportamentul așteptat pentru conturile fără astfel de date.
+Înseamnă că portalul nu a returnat date pentru acel tip de informație. Senzorul **Raport tranzacții** rămâne activ și afișează `Unknown` când nu există facturi. La inițializarea sau reîncărcarea integrării, senzorii legacy pentru restanțe, treceri și sold peaje sunt dezactivați în registrul Home Assistant dacă valoarea lor este `Unknown`; integrarea le păstrează ID-urile pentru compatibilitate.
 
 Erorile din cererile opționale pentru treceri de pod și facturi sunt înregistrate în log, dar nu ar trebui să împiedice actualizarea datelor vehiculului și rovinietei.
 
