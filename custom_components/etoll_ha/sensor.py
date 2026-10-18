@@ -12,8 +12,9 @@ confirmed in the portal client.
 from __future__ import annotations
 
 import logging
+from datetime import datetime
 
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
@@ -56,6 +57,7 @@ async def async_setup_entry(
 
     # Senzor utilizator
     sensors.append(DateUtilizatorSensor(coordinator, config_entry))
+    sensors.append(LastRefreshSensor(coordinator, config_entry))
 
     # First phase: current vignette status for each vehicle from eToll.
     for vehicle in coordinator.data.get("vehicles", []):
@@ -127,7 +129,7 @@ class EtollBaseSensor(CoordinatorEntity[EtollCoordinator], SensorEntity):
         self,
         coordinator: EtollCoordinator,
         config_entry: ConfigEntry,
-        name: str,
+        name: str | None,
         unique_id: str,
         icon: str | None = None,
     ) -> None:
@@ -202,6 +204,31 @@ class DateUtilizatorSensor(EtollBaseSensor):
         """Return the configured account identifier."""
         username = (self.coordinator.data or {}).get("account_username")
         return {"username": username} if username else {}
+
+
+class LastRefreshSensor(EtollBaseSensor):
+    """Expose the time of the most recent successful data refresh."""
+
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
+    _attr_translation_key = "last_refresh"
+    _attr_name = None
+
+    def __init__(
+        self, coordinator: EtollCoordinator, config_entry: ConfigEntry
+    ) -> None:
+        """Initialize the refresh timestamp sensor."""
+        super().__init__(
+            coordinator=coordinator,
+            config_entry=config_entry,
+            name=None,
+            unique_id=f"{DOMAIN}_last_refresh_{config_entry.entry_id}",
+            icon="mdi:clock-check-outline",
+        )
+
+    @property
+    def native_value(self) -> datetime | None:
+        """Return the last successful refresh timestamp in UTC."""
+        return (self.coordinator.data or {}).get("last_refresh")
 
 
 # =====================================================================

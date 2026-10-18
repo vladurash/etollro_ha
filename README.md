@@ -7,11 +7,12 @@ Custom integration for Home Assistant that reads vehicle vignette data and avail
 
 ## Sensors
 
-The integration creates one account sensor and one set of vehicle sensors for each registered car.
+The integration creates one account sensor, a last-refresh timestamp sensor, and one set of vehicle sensors for each registered car. It also provides a button to request an immediate refresh.
 
 | Sensor | What it reports |
 | --- | --- |
 | **Date utilizator** | `Conectat` when the configured account is available; includes the configured username. |
+| **Last refresh** | Date and time of the most recent successful refresh, whether scheduled or started with the refresh button. |
 | **Rovinietă activă (plate)** | `Da` while the vehicle’s current vignette expiration date is in the future, `Nu` when expired, and `Necunoscut` when no expiration date is available. Includes vehicle details such as plate, expiration date, category, and validity fields when provided. |
 | **Restanțe treceri pod (plate)** | Legacy sensor. It is `Unknown` and disabled because the integration has no confirmed eToll API route for unpaid bridge detections. |
 | **Treceri pod (plate)** | Legacy sensor. It reports verified crossings when returned; when the value is `Unknown`, Home Assistant disables it while retaining its registry entry. |
@@ -33,6 +34,8 @@ Copy `etoll/` into `custom_components/etoll/` in your Home Assistant configurati
 After restart, go to **Settings → Devices & services → Add integration**, search for **eToll**, and enter your eToll username and password. The integration authenticates with the eToll identity service and refreshes its data every 24 hours by default.
 
 You can change the refresh interval under **Settings → Devices & services → eToll → Configure**. The allowed interval is 300 to 86,400 seconds.
+
+Use the **Refresh data** button on the eToll device to refresh immediately without waiting for the configured interval. The **Last refresh** sensor updates when the data fetch succeeds; failed refresh attempts leave the last successful time unchanged.
 
 ## Updating from the previous integration domain
 

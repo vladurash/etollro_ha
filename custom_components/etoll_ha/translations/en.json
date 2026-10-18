@@ -59,4 +59,17 @@
             }
         }
     }
+    ,
+    "entity": {
+        "button": {
+            "refresh": {
+                "name": "Refresh data"
+            }
+        },
+        "sensor": {
+            "last_refresh": {
+                "name": "Last refresh"
+            }
+        }
+    }
 }

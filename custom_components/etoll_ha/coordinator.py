@@ -12,6 +12,7 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
     UpdateFailed,
 )
+from homeassistant.util import dt as dt_util
 
 from .api import EtollAPI
 from .const import CONF_USERNAME, DEFAULT_UPDATE_INTERVAL, DOMAIN
@@ -70,6 +71,7 @@ class EtollCoordinator(DataUpdateCoordinator[dict]):
                 "bridge_services_by_vehicle": bridge_services,
                 "bridge_verification_by_vehicle": bridge_verification,
                 "invoices": invoices,
+                "last_refresh": dt_util.utcnow(),
             }
         except EtollAuthError as err:
             raise ConfigEntryAuthFailed(f"eToll authentication failed: {err}") from err

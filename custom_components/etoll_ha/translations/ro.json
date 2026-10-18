@@ -59,6 +59,17 @@
                 }
             }
         }
+    },
+    "entity": {
+        "button": {
+            "refresh": {
+                "name": "Actualizează datele"
+            }
+        },
+        "sensor": {
+            "last_refresh": {
+                "name": "Ultima actualizare"
+            }
+        }
     }
-    
 }
