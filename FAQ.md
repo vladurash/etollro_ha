@@ -58,7 +58,7 @@ Apasă butonul **Actualizează datele** de pe dispozitivul eToll pentru a porni 
 
 ## Ce se schimbă față de vechea integrare?
 
-Componenta și domeniul Home Assistant au fost redenumite din `etoll` în `etoll`; versiunea curentă este **1.0.0**. Home Assistant tratează domeniul nou ca pe o integrare separată și nu migrează automat vechile intrări sau ID-uri din registrul entităților.
+Componenta și domeniul Home Assistant folosesc `etoll`. Home Assistant tratează integrarea ca pe o componentă separată și nu migrează automat intrările sau ID-urile vechi din registrul entităților. Versiunile publicate sunt disponibile pe [pagina de releases](https://github.com/vladurash/etollro_ha/releases).
 
 Pentru trecere, elimină intrarea veche, instalează componenta în `custom_components/etoll/`, repornește Home Assistant și adaugă din nou **eToll**. Verifică automatizările și dashboard-urile, deoarece entitățile noi folosesc de regulă prefixul `sensor.etoll_`.
 
