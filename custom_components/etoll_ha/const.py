@@ -1,9 +1,12 @@
 """Constants for the eToll integration."""
 
+import json
+from pathlib import Path
 from typing import Final
 
 DOMAIN = "etoll"
-VERSION = "1.0.0"
+with Path(__file__).with_name("manifest.json").open(encoding="utf-8") as manifest_file:
+    VERSION: Final[str] = json.load(manifest_file)["version"]
 ATTRIBUTION = "Date furnizate de portal.etoll.ro"
 
 # eToll portal and Keycloak
