@@ -41,7 +41,6 @@
     "options": {
         "error": {
             "invalid_update_interval": "Update interval must be between 300 and 86400 seconds."
-            
         },
         "step": {
             "init": {
@@ -57,8 +56,18 @@
                     "update_interval": "Update interval"
                 }
             }
-            
+        }
+    },
+    "entity": {
+        "button": {
+            "refresh": {
+                "name": "Refresh data"
+            }
+        },
+        "sensor": {
+            "last_refresh": {
+                "name": "Last refresh"
+            }
         }
     }
-    
 }

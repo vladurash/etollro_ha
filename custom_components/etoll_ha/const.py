@@ -31,4 +31,4 @@ ISTORIC_TRANZACTII_DEFAULT = 2  # ani
 MAX_ATTR_TRECERI = 20
 
 # Platforme suportate
-PLATFORMS: list[str] = ["sensor"]
+PLATFORMS: list[str] = ["sensor", "button"]

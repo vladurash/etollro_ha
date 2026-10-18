@@ -49,4 +49,17 @@
             }
         }
     }
+    ,
+    "entity": {
+        "button": {
+            "refresh": {
+                "name": "Actualizar datos"
+            }
+        },
+        "sensor": {
+            "last_refresh": {
+                "name": "Última actualización"
+            }
+        }
+    }
 }

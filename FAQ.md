@@ -6,6 +6,7 @@
 - [De ce Restanțe treceri pod este întotdeauna `Unknown`?](#de-ce-restanțe-treceri-pod-este-întotdeauna-unknown)
 - [Ce înseamnă starea senzorului Rovinietă activă?](#ce-înseamnă-starea-senzorului-rovinietă-activă)
 - [Cum modific intervalul de actualizare?](#cum-modific-intervalul-de-actualizare)
+- [Cum actualizez datele imediat și când au fost actualizate ultima dată?](#cum-actualizez-datele-imediat-și-când-au-fost-actualizate-ultima-dată)
 - [Ce se schimbă față de vechea integrare?](#ce-se-schimbă-față-de-vechea-integrare)
 - [Ce fac dacă autentificarea eșuează?](#ce-fac-dacă-autentificarea-eșuează)
 
@@ -22,6 +23,7 @@ Este creat un senzor de cont și un set de senzori pentru fiecare vehicul de tip
 | Senzor | Valoare |
 | --- | --- |
 | **Date utilizator** | `Conectat` sau `nespecificat`; atributul `username` conține contul configurat. |
+| **Ultima actualizare** | Data și ora ultimei actualizări reușite, programată sau declanșată manual. |
 | **Rovinietă activă (număr)** | `Da`, `Nu` sau `Necunoscut`, în funcție de data de expirare disponibilă. |
 | **Restanțe treceri pod (număr)** | Senzor legacy; `Unknown` și dezactivat, deoarece nu există o rută confirmată pentru detectarea restanțelor. |
 | **Treceri pod (număr)** | Senzor legacy; treceri confirmate când sunt returnate. Dacă valoarea este `Unknown`, Home Assistant îl dezactivează și îi păstrează intrarea în registru. |
@@ -49,6 +51,10 @@ Senzorul include atributele vehiculului și ale rovinietei atunci când portalul
 ## Cum modific intervalul de actualizare?
 
 Deschide **Settings → Devices & services → eToll → Configure → Settings** și alege intervalul în secunde. Valoarea implicită este 86.400 de secunde (24 de ore); sunt acceptate valori între 300 și 86.400 de secunde.
+
+## Cum actualizez datele imediat și când au fost actualizate ultima dată?
+
+Apasă butonul **Actualizează datele** de pe dispozitivul eToll pentru a porni o actualizare fără să aștepți intervalul configurat. Senzorul **Ultima actualizare** arată data și ora celei mai recente actualizări reușite, indiferent dacă a fost programată sau pornită manual. O încercare eșuată nu modifică ora ultimei actualizări reușite.
 
 ## Ce se schimbă față de vechea integrare?
 
